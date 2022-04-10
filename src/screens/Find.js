@@ -12,9 +12,10 @@ import React, {useEffect} from 'react';
 import RecentSearch from '../components/RecentSearch';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import {useGlobalContext} from '../../globalContext';
-import db from '../../firebase';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+// import firestore from '../../firebase';
+// import firebase from 'firebase/app';
+// import 'firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 
 export default function Find({navigation}) {
   LogBox.ignoreLogs(['Setting a timer']);
@@ -111,15 +112,20 @@ export default function Find({navigation}) {
         let arrRecentCities = [...recentCities];
 
         if (arrRecentCities.length >= 3) {
-          db.collection('recentCities').doc(arrRecentCities[2].id).delete();
+          firestore()
+            .collection('recentCities')
+            .doc(arrRecentCities[2].id)
+            .delete();
         }
 
-        db.collection('recentCities').add({
-          nameCity: data.name,
-          minTemp: roundTemp(data.main.temp_min),
-          maxTemp: roundTemp(data.main.temp_max),
-          createAt: firebase.firestore.FieldValue.serverTimestamp(),
-        });
+        firestore()
+          .collection('recentCities')
+          .add({
+            nameCity: data.name,
+            minTemp: roundTemp(data.main.temp_min),
+            maxTemp: roundTemp(data.main.temp_max),
+            createAt: firebase.firestore().FieldValue.serverTimestamp(),
+          });
 
         updateNameCityCurrent(data.name);
       }
@@ -166,13 +172,14 @@ export default function Find({navigation}) {
   };
 
   const updateNameCityCurrent = city => {
-    db.collection('weatherCurrent').doc(nameCityCurrent.id).update({
+    firestore().collection('weatherCurrent').doc(nameCityCurrent.id).update({
       nameCity: city,
     });
   };
 
   useEffect(() => {
-    db.collection('recentCities')
+    firestore()
+      .collection('recentCities')
       .orderBy('createAt', 'desc')
       .onSnapshot(snapshot => {
         setRecentCities(
