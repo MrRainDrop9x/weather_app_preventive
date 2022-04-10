@@ -8,6 +8,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Animated,
+  LogBox,
 } from 'react-native';
 import SunIcon from '../../assets/sun.svg';
 import CloudIcon from '../../assets/cloudy.svg';
@@ -36,8 +37,13 @@ const WeatherIcon = weatherType => {
 };
 import CityItem from '../components/CityItem';
 export default function Home({navigation}) {
+  LogBox.ignoreLogs(['ViewPropTypes will be removed from React Native']);
+  LogBox.ignoreLogs(['ColorPropType will be removed from React Native']);
+  LogBox.ignoreLogs(['EdgeInsetsPropType will be removed from React Native']);
+  LogBox.ignoreLogs(['PointPropType will be removed from React Native.']);
+
   const goFind = () => {
-    navigation.navigate('Info');
+    navigation.navigate('Find');
   };
   const {width: windowWidth, height: windowHeight} = useWindowDimensions();
   const scrollX = useRef(new Animated.Value(0)).current;

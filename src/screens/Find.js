@@ -13,6 +13,8 @@ import RecentSearch from '../components/RecentSearch';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import {useGlobalContext} from '../../globalContext';
 import firestore from '@react-native-firebase/firestore';
+import IconMaterialIcons from "react-native-vector-icons/MaterialIcons";
+import IconFontisto from "react-native-vector-icons/Fontisto";
 
 export default function Find({navigation}) {
   LogBox.ignoreLogs(['Setting a timer']);
@@ -36,6 +38,7 @@ export default function Find({navigation}) {
   const backHome = () => {
     setHoverInput(false);
     navigation.navigate('Home');
+    setInput('');
   };
 
   // Xử lý khi search
@@ -151,7 +154,9 @@ export default function Find({navigation}) {
         <View style={styles.inputBox}>
           <TouchableOpacity
             activeOpacity={0.9}
-            onPress={backHome}></TouchableOpacity>
+            onPress={backHome}>
+              <IconMaterialIcons name="arrow-back-ios" size={30} color="#000"/>
+          </TouchableOpacity>
           <TextInput
             value={input}
             onChangeText={text => setInput(text)}
@@ -203,7 +208,9 @@ export default function Find({navigation}) {
 
         <TouchableOpacity
           style={styles.myLocation}
-          activeOpacity={0.75}></TouchableOpacity>
+          activeOpacity={0.75}>
+            <IconFontisto name="crosshairs" size={24} color="#000"/>
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -10,7 +10,9 @@ import React from 'react';
 // import WTHourItem from '../components/WTHourItem';
 // import WTDayItem from '../components/WTDayItem';
 import {useGlobalContext} from '../../globalContext';
-import {ArrowBackIos, CalendarMonth, Settings} from '@mui/icons-material';
+import IconMaterialIcons from "react-native-vector-icons/MaterialIcons";
+import IconFontisto from "react-native-vector-icons/Fontisto";
+import IconIonicons from "react-native-vector-icons/Ionicons";
 
 export default function Info({navigation}) {
   const {
@@ -30,10 +32,10 @@ export default function Info({navigation}) {
           activeOpacity={0.8}
           onPress={() => navigation.navigate('Home')}
           style={styles.backBtn}>
-          <ArrowBackIos sx={styles.backIcon} />
+          <IconMaterialIcons name="arrow-back-ios" size={30} color="#000"/>
           <Text style={styles.titleBack}>Quay lại</Text>
         </TouchableOpacity>
-        <Settings sx={styles.settingIcon} />
+        <IconIonicons name="settings-sharp" size={30} color="#000"/>
       </View>
       <View>
         <View style={styles.title}>
@@ -63,7 +65,7 @@ export default function Info({navigation}) {
       <View>
         <View style={styles.title}>
           <Text style={styles.textMain}>Dự báo trong tuần</Text>
-          <CalendarMonth sx={styles.calendarMonthIcon} />
+          <IconIonicons name="calendar-sharp" size={30} color="#000"/>
         </View>
         <ScrollView
           contentContainerStyle={{flexGrow: 1}}
