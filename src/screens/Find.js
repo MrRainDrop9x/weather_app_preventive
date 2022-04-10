@@ -12,9 +12,6 @@ import React, {useEffect} from 'react';
 import RecentSearch from '../components/RecentSearch';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import {useGlobalContext} from '../../globalContext';
-// import firestore from '../../firebase';
-// import firebase from 'firebase/app';
-// import 'firebase/firestore';
 import firestore from '@react-native-firebase/firestore';
 
 export default function Find({navigation}) {
@@ -35,46 +32,6 @@ export default function Find({navigation}) {
     roundTemp,
     nameCityCurrent,
   } = useGlobalContext();
-
-  // lay dia chi cua dt
-  // const getMyLocation = async () => {
-  //     if (Platform.OS === 'android' && !Constants.isDevice) {
-  //         return;
-  //     }
-  //     let { status } = await Location.requestForegroundPermissionsAsync();
-  //     if (status !== 'granted') {
-  //         return;
-  //     }
-
-  //     let location = await Location.getCurrentPositionAsync({});
-
-  //     const url = `${api.baseUrl}/weather?lat=${location?.coords?.latitude}&lon=${location?.coords?.longitude}&units=metric&appid=${api.key}&lang=vi`;
-  //     // const res = await fetch(url);
-  //     // const data = await res.json();
-
-  //     fetch(url)
-  //         .then((res) => res.json())
-  //         .then((data) => {
-  //             setWeatherCityCurrent({
-  //                 cod: data.cod,
-  //                 nameCity: data.name,
-  //                 dt: data.dt,
-  //                 temperature: roundTemp(data.main.temp),
-  //                 description: data.weather[0].description,
-  //                 wind: ms2kmhWind(data.wind.speed),
-  //                 hum: data.main.humidity,
-  //                 imgWeather: `http://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`,
-  //                 lon: data.coord.lon,
-  //                 lat: data.coord.lat,
-  //                 timezoneCity: data.timezone,
-  //             });
-
-  //             updateNameCityCurrent(data.name);
-  //         })
-  //         .catch(() => {
-  //             console.log('Error!!');
-  //         });
-  // }
 
   const backHome = () => {
     setHoverInput(false);
@@ -124,7 +81,7 @@ export default function Find({navigation}) {
             nameCity: data.name,
             minTemp: roundTemp(data.main.temp_min),
             maxTemp: roundTemp(data.main.temp_max),
-            createAt: firebase.firestore().FieldValue.serverTimestamp(),
+            createAt: firestore.FieldValue.serverTimestamp(),
           });
 
         updateNameCityCurrent(data.name);

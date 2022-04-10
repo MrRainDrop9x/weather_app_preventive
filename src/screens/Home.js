@@ -37,7 +37,7 @@ const WeatherIcon = weatherType => {
 import CityItem from '../components/CityItem';
 export default function Home({navigation}) {
   const goFind = () => {
-    navigation.navigate('Find');
+    navigation.navigate('Info');
   };
   const {width: windowWidth, height: windowHeight} = useWindowDimensions();
   const scrollX = useRef(new Animated.Value(0)).current;
