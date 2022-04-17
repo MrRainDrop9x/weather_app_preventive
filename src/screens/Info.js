@@ -7,12 +7,13 @@ import {
   Image,
 } from 'react-native';
 import React from 'react';
-// import WTHourItem from '../components/WTHourItem';
-// import WTDayItem from '../components/WTDayItem';
+import WTHourItem from '../components/WTHourItem';
+import WTDayItem from '../components/WTDayItem';
 import {useGlobalContext} from '../../globalContext';
-import IconMaterialIcons from "react-native-vector-icons/MaterialIcons";
-import IconFontisto from "react-native-vector-icons/Fontisto";
-import IconIonicons from "react-native-vector-icons/Ionicons";
+import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import IconFontisto from 'react-native-vector-icons/Fontisto';
+import IconIonicons from 'react-native-vector-icons/Ionicons';
+import {LinearGradient} from 'react-native-svg';
 
 export default function Info({navigation}) {
   const {
@@ -32,57 +33,10 @@ export default function Info({navigation}) {
           activeOpacity={0.8}
           onPress={() => navigation.navigate('Home')}
           style={styles.backBtn}>
-          <IconMaterialIcons name="arrow-back-ios" size={30} color="#000"/>
+          <Text>&lt;</Text>
           <Text style={styles.titleBack}>Quay lại</Text>
         </TouchableOpacity>
-        <IconIonicons name="settings-sharp" size={30} color="#000"/>
-      </View>
-      <View>
-        <View style={styles.title}>
-          <Text style={styles.textMain}>Hôm nay</Text>
-          <Text style={styles.dateToday}>{`${dtToDayMonthDaily(
-            weatherCityCurrent.dt,
-            weatherCityCurrent.timezoneCity,
-          )}`}</Text>
-        </View>
-        <ScrollView
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          style={styles.scrollViewH}>
-          {weatherHourly.map(
-            (item, index) =>
-              index < 12 && (
-                <WTHourItem
-                  key={index}
-                  temperature={roundTempAfterComma(item.temp)}
-                  hour={dtToHour(item.dt, weatherCityCurrent.timezoneCity)}
-                  img={item.weather[0].icon}
-                />
-              ),
-          )}
-        </ScrollView>
-      </View>
-      <View>
-        <View style={styles.title}>
-          <Text style={styles.textMain}>Dự báo trong tuần</Text>
-          <IconIonicons name="calendar-sharp" size={30} color="#000"/>
-        </View>
-        <ScrollView
-          contentContainerStyle={{flexGrow: 1}}
-          showsVerticalScrollIndicator={true}
-          style={styles.scrollViewV}>
-          {weatherDaily.map((item, index) => (
-            <WTDayItem
-              key={index}
-              dateTime={dtToDayMonthDaily(
-                item.dt,
-                weatherCityCurrent.timezoneCity,
-              )}
-              img={item.weather[0].icon}
-              temperature={roundTemp(item.temp.day)}
-            />
-          ))}
-        </ScrollView>
+        <IconIonicons name="settings-sharp" size={30} color="#000" />
       </View>
     </View>
   );
@@ -93,6 +47,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundImage: 'linear-gradient(#47BFDF,4A91FF)',
   },
   background: {
     position: 'absolute',

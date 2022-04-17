@@ -13,8 +13,8 @@ import RecentSearch from '../components/RecentSearch';
 import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import {useGlobalContext} from '../../globalContext';
 import firestore from '@react-native-firebase/firestore';
-import IconMaterialIcons from "react-native-vector-icons/MaterialIcons";
-import IconFontisto from "react-native-vector-icons/Fontisto";
+import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import IconFontisto from 'react-native-vector-icons/Fontisto';
 
 export default function Find({navigation}) {
   LogBox.ignoreLogs(['Setting a timer']);
@@ -152,10 +152,8 @@ export default function Find({navigation}) {
     <View style={styles.container}>
       <View style={styles.containerSearch}>
         <View style={styles.inputBox}>
-          <TouchableOpacity
-            activeOpacity={0.9}
-            onPress={backHome}>
-              <IconMaterialIcons name="arrow-back-ios" size={30} color="#000"/>
+          <TouchableOpacity activeOpacity={0.9} onPress={backHome}>
+            <IconMaterialIcons name="arrow-back" size={25} color="#000" />
           </TouchableOpacity>
           <TextInput
             value={input}
@@ -206,10 +204,8 @@ export default function Find({navigation}) {
           />
         </MapView>
 
-        <TouchableOpacity
-          style={styles.myLocation}
-          activeOpacity={0.75}>
-            <IconFontisto name="crosshairs" size={24} color="#000"/>
+        <TouchableOpacity style={styles.myLocation} activeOpacity={0.75}>
+          <IconFontisto name="crosshairs" size={24} color="#000" />
         </TouchableOpacity>
       </View>
     </View>
@@ -219,7 +215,7 @@ export default function Find({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 35,
+    paddingTop: 30,
     backgroundColor: '#fff',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
@@ -237,8 +233,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderRadius: 14,
     borderColor: 'rgba(0, 0, 0, 0.1)',

@@ -12,8 +12,9 @@ export default function App() {
   return (
     <AppProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator>
           <Stack.Screen
+            initialRouteName="Home"
             name="Home"
             component={Home}
             options={{header: () => null}}

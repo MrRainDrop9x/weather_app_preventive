@@ -10,7 +10,7 @@ function AppProvider({children}) {
   const api = {
     oldKey: '8db986fe08377dcec893f8940d9c2cfd',
     key: '5ebbd20056cc7dfdf9a3dd35b024c7f9',
-    baseUrl: 'http://api.openweathermap.org/data/2.5/',
+    baseUrl: 'http://api.openweathermap.org/data/2.5',
     svgUrl: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/04n.svg',
   };
 
@@ -107,19 +107,6 @@ function AppProvider({children}) {
 
   const [nameCityCurrent, setNameCityCurrent] = useState({});
 
-  /*
-    useEffect(() => {
-        db.collection('weatherCurrent').onSnapshot((snapshot) => {
-            // snapshot.docs.map((doc) => {
-            //     console.log(doc);
-            // });
-            snapshot.docs.map((doc) => {
-                setNameCityCurrent({ ...doc.data(), id: doc.id });
-            });
-        });
-    }, []);
-    */
-
   useEffect(() => {
     const url = `${api.baseUrl}/weather?q=${nameCityCurrent?.nameCity}&units=metric&appid=${api.key}&lang=vi`;
     fetch(url)
@@ -154,19 +141,14 @@ function AppProvider({children}) {
       .then(data => {
         setWeatherHourly(data?.hourly);
         setWeatherDaily(data?.daily);
-        // console.log(dataHourly.length);
-        // console.log(dataDaily.length);
-        // console.log("hh");
       });
   }, [api.baseUrl, api.key, weatherCityCurrent]);
 
-  // useEffect(() => {
-  //     db.collection("recentCities").onSnapshot((snapshot) => {
-  //         snapshot.docs.map((doc) => {
-  //             console.log(doc.data());
-  //         })
-  //     })
-  // }, [])
+  const [trackedCityList, setTrackedCityList] = useState([]);
+
+  const [locations, setLocations] = useState([]);
+
+  // export default locals;
 
   const value = {
     api,
@@ -186,6 +168,11 @@ function AppProvider({children}) {
     setWeatherDaily,
     nameCityCurrent,
     setNameCityCurrent,
+
+    trackedCityList,
+    setTrackedCityList,
+    locations,
+    setLocations,
 
     ms2kmhWind,
     roundTemp,

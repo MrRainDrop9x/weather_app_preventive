@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   StatusBar,
   ImageBackground,
   TouchableOpacity,
@@ -18,9 +17,10 @@ import MenuIcon from '../../assets//menu.svg';
 import SearchIcon from '../../assets/search.svg';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import React from 'react';
-import {useRef} from 'react';
+import {useRef, useEffect} from 'react';
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
-import Locations from '../../model/locations';
+import firestore from '@react-native-firebase/firestore';
+import {ScrollView} from 'react-native-gesture-handler';
 const WeatherIcon = weatherType => {
   if (weatherType === 'Sunny') {
     return <SunIcon width={34} height={34} fill="#fff" />;
@@ -36,7 +36,66 @@ const WeatherIcon = weatherType => {
   }
 };
 import CityItem from '../components/CityItem';
+import {useGlobalContext} from '../../globalContext';
+
 export default function Home({navigation}) {
+  const {
+    api,
+    trackedCityList,
+    setTrackedCityList,
+    locations,
+    setLocations,
+    roundTemp,
+  } = useGlobalContext();
+
+  //get tracked city from firestore
+  function getTrackedCityList() {
+    firestore()
+      .collection('weatherCurrent')
+      .orderBy('createAt', 'desc')
+      .onSnapshot(snapshot => {
+        setTrackedCityList(
+          snapshot.docs.map(doc => {
+            return doc.data().nameCity;
+          }),
+        );
+      });
+  }
+  useEffect(() => {
+    getTrackedCityList();
+  }, []);
+
+  useEffect(() => {
+    trackedCityList.map((nameCity, index) => {
+      const url = `${api.baseUrl}/weather?q=${nameCity}&units=metric&appid=${api.key}&lang=vi`;
+      // console.log(url);
+      const fetchData = async () => {
+        // get the data from the api
+        const data = await fetch(url);
+        // convert data to json
+        const json = await data.json();
+        setLocations(locations => [
+          ...locations,
+          {
+            id: index,
+            city: json?.name,
+            dateTime: '07:50 PM — Wednesday, 26 May 2021',
+            temparature: `${roundTemp(json?.main?.temp)}\u2103`,
+            weatherType: json?.weather[0]?.main,
+            weatherDes: json?.weather[0]?.description,
+            wind: json?.wind?.speed,
+            rain: 50,
+            humidity: json?.main?.humidity,
+          },
+        ]);
+      };
+
+      fetchData()
+        // make sure to catch any error
+        .catch(console.error);
+    });
+  }, [trackedCityList]);
+
   LogBox.ignoreLogs(['ViewPropTypes will be removed from React Native']);
   LogBox.ignoreLogs(['ColorPropType will be removed from React Native']);
   LogBox.ignoreLogs(['EdgeInsetsPropType will be removed from React Native']);
@@ -51,7 +110,7 @@ export default function Home({navigation}) {
     <>
       <StatusBar barStyle="light-content" />
       <ScrollView
-        horizontal={true}
+        horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onScroll={Animated.event(
@@ -67,15 +126,16 @@ export default function Home({navigation}) {
           {useNativeDriver: false},
         )}
         scrollEventThrottle={1}>
-        {Locations.map((location, index) => {
+        {locations?.map((location, index) => {
           let bgImg;
-          if (location.weatherType === 'Sunny') {
+          //Thunderstorm,Drizzle,Snow,Mist
+          if (location.weatherType === 'Clear') {
             bgImg = require('../../assets/sunny.jpg');
           } else if (location.weatherType === 'Night') {
             bgImg = require('../../assets/night2.jpg');
-          } else if (location.weatherType === 'Cloudy') {
+          } else if (location.weatherType === 'Clouds') {
             bgImg = require('../../assets/cloudy.jpeg');
-          } else if (location.weatherType === 'Rainy') {
+          } else if (location.weatherType === 'Rain') {
             bgImg = require('../../assets/rainy.jpg');
           }
           return <CityItem location={location} bgImg={bgImg} key={index} />;
@@ -90,7 +150,7 @@ export default function Home({navigation}) {
         </TouchableOpacity>
       </View>
       <View style={styles.indicatorWrapper}>
-        {Locations.map((location, index) => {
+        {locations?.map((location, index) => {
           const width = scrollX.interpolate({
             inputRange: [
               windowWidth * (index - 1),
@@ -119,7 +179,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     width: '100%',
-    height: getStatusBarHeight() + 40,
+    height: getStatusBarHeight() + 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
@@ -172,7 +232,7 @@ const styles = StyleSheet.create({
   },
   indicatorWrapper: {
     position: 'absolute',
-    top: 140,
+    top: 100,
     left: 20,
     flexDirection: 'row',
     justifyContent: 'center',
