@@ -104,6 +104,11 @@ export default function Home({navigation}) {
   const goFind = () => {
     navigation.navigate('Find');
   };
+
+  const goListCity = () => {
+    navigation.navigate('ListCity');
+  };
+
   const {width: windowWidth, height: windowHeight} = useWindowDimensions();
   const scrollX = useRef(new Animated.Value(0)).current;
   return (
@@ -142,10 +147,10 @@ export default function Home({navigation}) {
         })}
       </ScrollView>
       <View style={styles.appHeader}>
-        <TouchableOpacity onPress={() => {}}>
-          <SearchIcon width={24} height={24} fill="#fff" onPress={goFind} />
+        <TouchableOpacity onPress={goFind}>
+          <SearchIcon width={24} height={24} fill="#fff" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={goListCity}>
           <MenuIcon width={24} height={24} fill="#fff" />
         </TouchableOpacity>
       </View>

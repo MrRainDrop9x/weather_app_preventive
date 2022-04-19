@@ -19,6 +19,10 @@ target 'weather' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'RNCCheckbox', :path => '../node_modules/@react-native-community/checkbox'
+
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'weatherTests' do
     inherit! :complete
     # Pods for testing
