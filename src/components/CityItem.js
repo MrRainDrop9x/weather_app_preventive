@@ -10,6 +10,7 @@ import {useGlobalContext} from '../../globalContext';
 import WTHourItem from '../components/WTHourItem';
 import WeatherDayItem from './WeatherDayItem';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
+import DetailWeather from './DetailWeather';
 const WeatherIcon = weatherType => {
   if (weatherType === 'Sunny') {
     return <SunIcon width={34} height={34} fill="#fff" />;
@@ -40,102 +41,50 @@ const CityItem = ({location, bgImg}) => {
     );
   };
   return (
-    <ScrollView nestedScrollEnabled>
-      <View style={{width: windowWidth, height: windowHeight}}>
-        <ImageBackground
-          source={bgImg}
-          style={{
-            flex: 1,
-          }}>
-          {/* current */}
-          <View
+    <>
+      <ScrollView horizontal={false}>
+        <View style={{width: windowWidth, height: windowHeight}}>
+          <ImageBackground
+            source={bgImg}
             style={{
               flex: 1,
-              backgroundColor: 'rgba(0,0,0,0.3)',
-              padding: 20,
             }}>
-            <View style={styles.topInfoWrapper}>
-              <View>
-                <Text style={styles.city}>{location.city}</Text>
-                <Text style={styles.time}>{location.dateTime}</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  display: 'flex',
-                }}>
-                <View style={{flex: 1}}>
-                  <Text style={styles.temparature}>{location.temparature}</Text>
-                </View>
-                <View style={{flex: 1}}>
-                  <Text style={styles.weatherDes}>U Am</Text>
-                </View>
-              </View>
-            </View>
+            {/* current */}
             <View
               style={{
-                display: 'flex',
-                flexDirection: 'row',
-                marginTop: 10,
-                marginLeft: 5,
+                flex: 1,
+                backgroundColor: 'rgba(0,0,0,0.3)',
+                padding: 20,
               }}>
-              <Text
-                style={{
-                  fontFamily: 'Lato-Regular',
-                  color: 'white',
-                  fontSize: 15,
-                }}>{`10/3\u2103`}</Text>
-              <Text
-                style={{
-                  color: 'white',
-                  marginLeft: 10,
-                  fontWeight: 'bold',
-                  fontSize: 15,
-                }}>
-                Chủ Nhật
-              </Text>
+              <View style={styles.topInfoWrapper}>
+                <View>
+                  <Text style={styles.city}>{location.city}</Text>
+                  <Text style={styles.time}>{location.dateTime}</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    display: 'flex',
+                  }}>
+                  <View>
+                    <Text style={styles.temparature}>
+                      {location.temparature}
+                    </Text>
+                  </View>
+                  <View style={{flex: 1}}>
+                    <Text style={styles.weatherDes}>U Am</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.bottomInfoWrapper}>
+                <DetailWeather location={location} />
+              </View>
             </View>
-            <View style={styles.bottomInfoWrapper}>
-              <FlatList
-                data={weatherHourly}
-                renderItem={renderWeatherHourItem}
-                horizontal
-                nestedScrollEnabled={true}></FlatList>
-              {/* <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-                style={styles.scrollViewH}>
-                {weatherHourly.map(
-                  (item, index) =>
-                    index < 12 && (
-                      <WTHourItem
-                        key={index}
-                        temperature={roundTemp(item.temp)}
-                        hour={dtToHour(
-                          item.dt,
-                          weatherCityCurrent.timezoneCity,
-                        )}
-                        img={item.weather[0].icon}
-                      />
-                    ),
-                )}
-              </ScrollView> */}
-            </View>
-          </View>
-        </ImageBackground>
-      </View>
-
-      {/* Report weather 7 days */}
-      <View>
-        <View>
-          <Text>Báo cáo thời tiết 7 ngày</Text>
+          </ImageBackground>
         </View>
-        <View>
-          <WeatherDayItem />
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 };
 
@@ -174,17 +123,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginVertical: 35,
     paddingRight: -50,
-  },
-  infoText: {
-    color: 'white',
-    fontSize: 14,
-    fontFamily: 'Lato-Regular',
-    fontWeight: 'bold',
-  },
-  infoBar: {
-    width: 45,
-    height: 5,
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
   },
 });
 

@@ -15,7 +15,7 @@ import IconFontisto from 'react-native-vector-icons/Fontisto';
 import IconIonicons from 'react-native-vector-icons/Ionicons';
 import {LinearGradient} from 'react-native-svg';
 
-export default function Info({navigation}) {
+export default function Info({navigation, nameCity, WTDayList, WTHourList}) {
   const {
     weatherCityCurrent,
     weatherHourly,
@@ -34,7 +34,7 @@ export default function Info({navigation}) {
           onPress={() => navigation.navigate('Home')}
           style={styles.backBtn}>
           <Text>&lt;</Text>
-          <Text style={styles.titleBack}>Quay lại</Text>
+          <Text style={styles.titleBack}>{nameCity}</Text>
         </TouchableOpacity>
         <IconIonicons name="settings-sharp" size={30} color="#000" />
       </View>

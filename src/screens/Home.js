@@ -16,11 +16,13 @@ import RainIcon from '../../assets/rain.svg';
 import MenuIcon from '../../assets//menu.svg';
 import SearchIcon from '../../assets/search.svg';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import React from 'react';
+import * as React from 'react';
 import {useRef, useEffect} from 'react';
 import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
 import firestore from '@react-native-firebase/firestore';
 import {ScrollView} from 'react-native-gesture-handler';
+import {useScrollToTop} from '@react-navigation/native';
+
 const WeatherIcon = weatherType => {
   if (weatherType === 'Sunny') {
     return <SunIcon width={34} height={34} fill="#fff" />;
@@ -79,13 +81,14 @@ export default function Home({navigation}) {
           {
             id: index,
             city: json?.name,
-            dateTime: '07:50 PM — Wednesday, 26 May 2021',
+            dateTime: '07:50 PM — Wed, 26 May 2021',
             temparature: `${roundTemp(json?.main?.temp)}\u2103`,
             weatherType: json?.weather[0]?.main,
             weatherDes: json?.weather[0]?.description,
             wind: json?.wind?.speed,
             rain: 50,
             humidity: json?.main?.humidity,
+            visibility: json?.visibility,
           },
         ]);
       };
@@ -106,6 +109,27 @@ export default function Home({navigation}) {
   };
   const {width: windowWidth, height: windowHeight} = useWindowDimensions();
   const scrollX = useRef(new Animated.Value(0)).current;
+
+  // const ref = React.useRef(null);
+  // useScrollToTop(
+  //   React.useRef({
+  //     scrollToTop: () => navigation.navigate('Find'),
+  //   }),
+  // );
+
+  const handleScroll = () => {
+    navigation.navigate('Find');
+  };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('scroll', () => {
+      // do something
+      handleScroll();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <>
       <StatusBar barStyle="light-content" />
